@@ -1,0 +1,28 @@
+{
+  "name": "tooling.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/tooling.js",
+  "bin": {
+    "tooling": "bin/tooling"
+  },
+  "scripts": {
+    "test": "babel-node test/unit/spec/test.js",
+    "test:lint": "eslint src test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-env": "0.0.8",
+    "shelljs": "^0.7.5"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-preset-latest": "^6.16.0",
+    "eslint": "^3.10.2",
+    "eslint-plugin-mocha": "^4.7.0"
+  }
+}
