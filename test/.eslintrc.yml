@@ -1,0 +1,5 @@
+extends:
+  - "../.eslintrc-mocha.yml"
+rules:
+  no-eval:
+  - 0

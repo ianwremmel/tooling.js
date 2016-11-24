@@ -1,20 +1,35 @@
-#!/usr/bin/env node
-import {transform} from 'babel-core';
-import fs from 'fs';
+const fs = require(`fs`);
+const path = require(`path`);
+const transform = require(`./transform`);
 
-const source = `require('shelljs/global'); (async function() {${fs.readFileSync(process.argv[2])}}())`;
+const nodeModulePatern = /node_modules/;
+function isNodeModule(filename) {
+  return nodeModulePatern.test(filename);
+}
 
-const {code, map, ast} = transform(source, {
-  plugins: [
-    'transform-runtime'
-  ],
-  presets: [
-    ['env', {
-      targets: {
-        node: true
-      }
-    }]
-  ]
-});
+function inject(m, filename) {
+  const code = fs.readFileSync(filename, `utf8`);
+  m._compile(transform(code), filename);
+}
 
-eval(code);
+function enable() {
+  let dir;
+  const load = require.extensions[`.js`];
+  require.extensions[`.js`] = function transformOnLoad(m, filename) {
+    if (isNodeModule(filename)) {
+      return load(m, filename);
+    }
+
+    if (!dir) {
+      dir = path.dirname(filename);
+    }
+
+    if (!filename.includes(dir)) {
+      return load(m, filename);
+    }
+
+    return inject(m, filename);
+  };
+}
+
+enable();
