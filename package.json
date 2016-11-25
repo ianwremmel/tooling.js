@@ -1,5 +1,5 @@
 {
-  "name": "tooling.js",
+  "name": "@ianwremmel/tooling.js",
   "version": "1.0.0",
   "description": "",
   "main": "src/tooling.js",
