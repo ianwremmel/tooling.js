@@ -1,35 +1,37 @@
 const sh = require(`./sh`);
 const template = require(`babel-template`);
 
-const shTemplate = template(`async ${sh.toString()}`);
+module.exports = function plugin({types: t}) {
+  const shtpl = template(sh.toString());
 
-function replaceFunction(t, object, property, path) {
-  path.replaceWith(t.callExpression(
-    t.memberExpression(
-      t.identifier(object), t.identifier(property)
-    ),
-    path.node.arguments
-  ));
-}
-
-function addGlobal(path, global) {
-  while (path.parentPath && path.parentPath.parentPath) {
-    path = path.parentPath;
+  function addSh(path, state) {
+    if (!state.sh) {
+      state.sh = path.scope.generateUidIdentifier(`sh`);
+      const helper = shtpl();
+      path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
+    }
   }
 
-  path.insertAfter(global);
-}
+  function replaceFunction(object, property, path) {
+    path.replaceWith(t.callExpression(
+      t.memberExpression(
+        t.identifier(object), t.identifier(property)
+      ),
+      path.node.arguments
+    ));
+  }
 
-module.exports = function plugin({types: t}) {
   return {
     visitor: {
-      CallExpression(path) {
+      CallExpression(path, state) {
         if (path.get(`callee`).isIdentifier({name: `echo`})) {
-          replaceFunction(t, `console`, `log`, path);
+          replaceFunction(`console`, `log`, path);
         }
         else if (path.get(`callee`).isIdentifier({name: `sh`})) {
-          addGlobal(path, shTemplate());
+          addSh(path, state);
           path.replaceWith(t.awaitExpression(path.node));
+          // Stop descending to prevent the recursion caused by adding the
+          // awaitExpression
           path.skip();
         }
       }

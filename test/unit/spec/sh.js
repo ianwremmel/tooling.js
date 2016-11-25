@@ -53,6 +53,30 @@ describe(`sh`, () => {
       return assert.isFulfilled(eval(code));
     });
   });
-  it(`behaves synchronously by default`);
-  it(`bahaves asynchonously when the "await" keyword specified`);
+
+  it(`behaves synchronously by default`, () => {
+    const code = transform(`
+      sh("echo 1")
+      sh("sleep 1; echo 2")
+      sh("echo 3")
+    `);
+
+    // pipe to node rather than eval so we can get all of stdout without spies
+    const out = cp.execSync(`echo '${code}' | node`);
+    assert.equal(out.toString(), `1\n2\n3\n`);
+  });
+
+  // not yet implemented
+  it.skip(`behaves asynchonously when the "await" keyword specified`, () => {
+    const code = transform(`
+      parallel(
+        sh("echo 1"),
+        sh("sleep 1; echo 2"),
+        sh("echo 3")
+      )
+    `);
+    // pipe to node rather than eval so we can get all of stdout without spies
+    const out = cp.execSync(`echo '${code}' | node`);
+    assert.equal(out.toString(), `1\n3\n2\n`);
+  });
 });
