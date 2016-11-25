@@ -1,10 +1,21 @@
-const assert = require(`chai`).assert;
+const chai = require(`chai`);
+const sinon = require(`sinon`);
 const transform = require(`../../../src/transform`);
+
+sinon.assert.expose(chai.assert, {prefix: ``});
+
+const assert = chai.assert;
 
 describe(`echo`, () => {
   it(`gets injected into the global scope`, () => {
-    assert.equal(eval(transform(`echo(\`1\`)`)), 1);
+    assert.doesNotThrow(() => {
+      eval(transform(`echo("abc")`));
+    });
   });
 
-  it(`prints its arguments to stdout`);
+  it(`prints its arguments to stdout`, () => {
+    const spy = sinon.spy(console, `log`);
+    eval(transform(`echo(\`1\`)`));
+    assert.calledWith(spy, `1`);
+  });
 });

@@ -1,5 +1,8 @@
 extends:
   - "../.eslintrc-mocha.yml"
 rules:
+  max-nested-callbacks:
+  - 2
+  - 3
   no-eval:
   - 0
