@@ -34,8 +34,24 @@ describe(`sh`, () => {
   });
 
   describe(`when "return" is specified`, () => {
-    it(`does not throw`);
-    it(`provides access to stderr and stdout`);
+    it(`does not throw`, () => {
+      const code = transform(`
+        let res = sh("exit 1", {complex: true});
+      `);
+
+      return assert.isFulfilled(eval(code));
+    });
+
+    it(`provides access to stderr and stdout`, () => {
+      const code = transform(`
+        let res = sh("exit 1", {complex: true});
+        require("assert").equal(res.code, 1);
+        require("assert")('stdout' in res);
+        require("assert")('stderr' in res);
+      `);
+
+      return assert.isFulfilled(eval(code));
+    });
   });
   it(`behaves synchronously by default`);
   it(`bahaves asynchonously when the "await" keyword specified`);

@@ -1,4 +1,5 @@
-module.exports = function sh(str) {
+module.exports = function sh(str, options) {
+  options = options || {};
   // we need the require statement inside this function since its going to be
   // stringified
   // eslint-disable-next-line global-require
@@ -35,6 +36,15 @@ module.exports = function sh(str) {
     });
 
     child.on(`close`, (code) => {
+      if (options.complex) {
+        resolve({
+          code,
+          stdout: out,
+          stderr: err
+        });
+        return;
+      }
+
       if (code) {
         const e = new Error(err);
         e.code = code;
