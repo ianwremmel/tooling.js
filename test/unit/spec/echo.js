@@ -1,10 +1,6 @@
-const chai = require(`chai`);
+const assert = require(`chai`).assert;
 const sinon = require(`sinon`);
 const transform = require(`../../../src/transform`);
-
-sinon.assert.expose(chai.assert, {prefix: ``});
-
-const assert = chai.assert;
 
 describe(`echo`, () => {
   it(`gets injected into the global scope`, () => {

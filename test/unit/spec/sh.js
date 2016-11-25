@@ -1,13 +1,6 @@
-const chai = require(`chai`);
-const sinon = require(`sinon`);
+const assert = require(`chai`).assert;
 const transform = require(`../../../src/transform`);
 const cp = require(`child_process`);
-const chaiAsPromised = require(`chai-as-promised`);
-
-chai.use(chaiAsPromised);
-sinon.assert.expose(chai.assert, {prefix: ``});
-
-const assert = chai.assert;
 
 describe(`sh`, () => {
   it(`executes shell commands`, () => {
