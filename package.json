@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "mocha test/*/spec/**/*.js",
+    "posttest": "npm run test:lint",
     "test:lint": "eslint src test"
   },
   "author": "",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "eslint": "^3.10.2",
     "eslint-plugin-mocha": "^4.7.0",
     "mocha": "^3.1.2",

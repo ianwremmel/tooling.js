@@ -1,8 +1,11 @@
 extends:
+  - "../.eslintrc-es6.yml"
   - "../.eslintrc-mocha.yml"
 rules:
   max-nested-callbacks:
   - 2
   - 3
   no-eval:
+  - 0
+  no-sync:
   - 0
