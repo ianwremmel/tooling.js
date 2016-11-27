@@ -59,8 +59,7 @@ describe(`sh`, () => {
     assert.equal(out.toString(), `1\n2\n3\n`);
   });
 
-  // not yet implemented
-  it.skip(`behaves asynchonously when the "await" keyword specified`, () => {
+  it(`behaves asynchonously when combined with parallel`, () => {
     const code = transform(`
       parallel(
         sh("echo 1"),
@@ -68,6 +67,7 @@ describe(`sh`, () => {
         sh("echo 3")
       )
     `);
+
     // pipe to node rather than eval so we can get all of stdout without spies
     const out = cp.execSync(`echo '${code}' | node`);
     assert.equal(out.toString(), `1\n3\n2\n`);
