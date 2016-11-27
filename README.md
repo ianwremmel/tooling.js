@@ -28,8 +28,16 @@ Tooling.js accepts a script file as an argument and passes it through two compil
 ## Install
 
 ```bash
+npm install -g @ianwremmel/tooling.js
+```
+
+or
+
+```bash
 npm install --save-dev @ianwremmel/tooling.js
 ```
+
+> with the save-dev option, you'll want to define your executables with npm scripts.
 
 ## Usage
 
