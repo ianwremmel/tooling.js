@@ -1,4 +1,12 @@
-#!/usr/bin/env node
+#!/bin/bash
 
-require('babel-register');
-require('../src/tooling');
+set -e
+
+if [ -z "${1}" ]; then
+  echo "usage: tooling ./script.js"
+  exit -1
+fi
+
+# START_DIR=$(pwd)
+MODULE_ROOT=$(dirname $(dirname $0))
+node -r "${MODULE_ROOT}/src/tooling.js" "${1}"
