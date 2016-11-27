@@ -10,6 +10,7 @@ Inspired by [Jenkins Pipelines](https://jenkins.io/doc/book/pipeline/) (specific
 - [Install](#install)
 - [Usage](#usage)
 - [API](#api)
+- [Roadmap](#roadmap)
 - [Contribute](#contribute)
 - [License](#license)
 
@@ -94,10 +95,6 @@ echo(`1`)
 
 Run multiple items in parallel. Note: every argument is wrapped in a promise, so arguments can be anything that can be passed to a function.
 
-TODO support max concurrecy
-TODO suppress errors (optional?)
-TODO figure out how to augment the babylon parser so that e.g. try/catch statements can be passed as arguments
-
 ```javascript
 parallel(
   console.log(1),
@@ -131,6 +128,18 @@ catch(err) {
 ```javascript
 const one = sh(`echo 1`, {complex: true}).stdout;
 ```
+
+# Roadmap
+
+- implement retry
+- parallel
+  - support max concurrency
+  - suppress errors (optional?)
+  - figure out how to augment the babylon parser so that e.g. try/catch statements can be passed as arguments
+- implement cwd
+- implement env
+- implement exit
+- implement helpers for npm, docker, jenkins
 
 ## Contribute
 
