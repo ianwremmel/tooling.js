@@ -19,7 +19,7 @@
     "shelljs": "^0.7.5"
   },
   "engines": {
-    "node": "> 7.x"
+    "node": ">=6.x"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
