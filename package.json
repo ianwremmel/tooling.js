@@ -1,12 +1,12 @@
 {
   "name": "@ianwremmel/tooling.js",
-  "version": "1.0.0",
   "description": "",
   "main": "src/tooling.js",
   "bin": {
     "tooling": "bin/tooling"
   },
   "scripts": {
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "mocha ./test/*/spec/**/*.js",
     "posttest": "npm run test:lint",
     "test:lint": "eslint src test --ignore-pattern test/integration/fixtures/example.js"
@@ -27,9 +27,20 @@
     "babel-eslint": "^7.1.1",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "condition-circle": "^1.5.0",
     "eslint": "^3.10.2",
     "eslint-plugin-mocha": "^4.7.0",
     "mocha": "^3.1.2",
+    "semantic-release": "^6.3.2",
     "sinon": "1.17.6"
+  },
+  "release": {
+    "verifyConditions": [
+      "condition-circle"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ianwremmel/tooling.js.git"
   }
 }

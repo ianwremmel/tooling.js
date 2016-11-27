@@ -1,3 +1,9 @@
 machine:
   node:
-    version: 6.0.0
+    version: 6
+
+deployment:
+  production:
+    branch: master
+    commands:
+    - export env $(cat .env | xargs) && npm run semantic-release || true
