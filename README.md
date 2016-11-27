@@ -1,6 +1,7 @@
 # tooling.js _(@ianwremmel/tooling.js)_
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![CircleCI](https://circleci.com/gh/ianwremmel/tooling.js/tree/master.svg?style=svg)](https://circleci.com/gh/ianwremmel/tooling.js/tree/master)
 
 > tooling.js makes it easier to use nodejs for automation tasks.
 
