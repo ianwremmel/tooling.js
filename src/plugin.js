@@ -1,18 +1,10 @@
-const sh = require(`./sh`);
-const template = require(`babel-template`);
+const helpers = require(`./helpers`);
 
 module.exports = function plugin({types: t}) {
-  const shtpl = template(sh.toString());
-  const paralleltpl = template(`
-    async function parallel(...args) {
-      return await Promise.all(args);
-    };
-  `);
-
   function addSh(path, state) {
     if (!state.sh) {
       state.sh = path.scope.generateUidIdentifier(`sh`);
-      const helper = shtpl();
+      const helper = helpers.sh();
       path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
     }
   }
@@ -20,7 +12,7 @@ module.exports = function plugin({types: t}) {
   function addParallel(path, state) {
     if (!state.parallel) {
       state.parallel = path.scope.generateUidIdentifier(`parallel`);
-      const helper = paralleltpl();
+      const helper = helpers.parallel();
       // Ideally, this would be done with via template, but I couldn't figure
       // out how to get the types to line up.
       const args = path.node.arguments.map((argument) => t.newExpression(
