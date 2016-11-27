@@ -6,12 +6,12 @@
 
 Inspired by [Jenkins Pipelines](https://jenkins.io/doc/book/pipeline/) (specifically, the [groovy]() based Jenkinsfile), tooling.js aims to make JavaScript friendlier for writing tooling for software projects.
 
-- [Background](background)
-- [Install](install)
-- [Usage](usage)
-- [API](usage)
-- [Contribute](contribute)
-- [License](license)
+- [Background](#background)
+- [Install](#install)
+- [Usage](#usage)
+- [API](#usage)
+- [Contribute](#contribute)
+- [License](#license)
 
 ## Background
 
