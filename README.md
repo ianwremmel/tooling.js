@@ -9,7 +9,7 @@ Inspired by [Jenkins Pipelines](https://jenkins.io/doc/book/pipeline/) (specific
 - [Background](#background)
 - [Install](#install)
 - [Usage](#usage)
-- [API](#usage)
+- [API](#api)
 - [Contribute](#contribute)
 - [License](#license)
 
