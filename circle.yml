@@ -6,4 +6,4 @@ deployment:
   production:
     branch: master
     commands:
-    - export env $(cat .env | xargs) && npm run semantic-release || true
+    - npm run semantic-release || true
