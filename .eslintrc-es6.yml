@@ -3,7 +3,7 @@ env:
 extends: "./.eslintrc-es5.yml"
 parserOptions:
   ecmaVersion: 6
-  sourceType: "module"
+  sourceType: "strict"
 parser: "babel-eslint"
 rules:
   #
@@ -13,7 +13,7 @@ rules:
   strict:
     # No need because modules force strict mode
     - 2
-    - "never"
+    - "global"
   #
   # Stylistic Issues
   # http://eslint.org/docs/rules/#stylistic-issues

@@ -1,3 +1,5 @@
+"use strict";
+
 const helpers = require(`./helpers`);
 
 module.exports = function plugin({types: t}) {

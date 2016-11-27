@@ -1,3 +1,5 @@
+"use strict";
+
 const sh = require(`./sh`);
 const template = require(`babel-template`);
 

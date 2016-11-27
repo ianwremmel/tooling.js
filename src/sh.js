@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function sh(str, options) {
   options = options || {};
   // we need the require statement inside this function since its going to be
