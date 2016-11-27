@@ -16,6 +16,8 @@
   "dependencies": {
     "babel-core": "^6.18.2",
     "babel-preset-env": "0.0.8",
+    "babel-register": "^6.18.0",
+    "babel-template": "^6.16.0",
     "shelljs": "^0.7.5"
   },
   "engines": {
