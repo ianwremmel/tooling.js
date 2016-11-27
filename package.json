@@ -18,6 +18,9 @@
     "babel-preset-env": "0.0.8",
     "shelljs": "^0.7.5"
   },
+  "engines": {
+    "node": "> 7.x"
+  },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "chai": "^3.5.0",
