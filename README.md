@@ -1,7 +1,8 @@
 # tooling.js _(@ianwremmel/tooling.js)_
 
+[![CircleCI](https://img.shields.io/circleci/project/github/ianwremmel/tooling.js.svg?style=flat-square)](https://circleci.com/gh/ianwremmel/tooling.js/tree/master)
+[![npm (scoped)](https://img.shields.io/npm/v/@ianwremmel/tooling.js.svg?style=flat-square)](https://www.npmjs.com/package/@ianwremmel/tooling.js)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-[![CircleCI](https://circleci.com/gh/ianwremmel/tooling.js/tree/master.svg?style=svg)](https://circleci.com/gh/ianwremmel/tooling.js/tree/master)
 
 > tooling.js makes it easier to use nodejs for automation tasks.
 
