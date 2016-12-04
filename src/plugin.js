@@ -50,11 +50,17 @@ module.exports = function plugin({types: t}) {
           return argument;
         }
 
+        if (t.isFunctionExpression(argument) || t.isArrowFunctionExpression(argument)) {
+          argument.iife = true;
+          return argument;
+        }
+
         return t.arrowFunctionExpression(
           [],
           t.blockStatement(
             [t.returnStatement(argument)]
-          )
+          ),
+          true
         );
       });
 

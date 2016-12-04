@@ -50,6 +50,50 @@ describe(`retry`, () => {
       .then(() => assert.callCount(spy, 3));
   });
 
-  it(`retries synchronous failures`);
+  it(`retries synchronous failures`, () => {
+    const spy = sinon.spy();
+    const code = transform(`
+      retry(
+        (function() {
+          spy();
+          throw new Error('expected failure')
+        })
+      )
+    `);
+
+    return assert.isRejected(eval(code), /expected failure/)
+      .then(() => assert.callCount(spy, 3));
+  });
+
+  it(`auto-invokes arrow expressions`, () => {
+    const spy = sinon.spy();
+    const code = transform(`
+      retry(
+        (() => {
+          spy();
+          throw new Error('expected failure')
+        })
+      )
+    `);
+
+    return assert.isRejected(eval(code), /expected failure/)
+      .then(() => assert.callCount(spy, 3));
+  });
+
+  it(`auto-invokes function expressions`, () => {
+    const spy = sinon.spy();
+    const code = transform(`
+      retry(
+        (function() {
+          spy();
+          throw new Error('expected failure')
+        })
+      )
+    `);
+
+    return assert.isRejected(eval(code), /expected failure/)
+      .then(() => assert.callCount(spy, 3));
+  });
+
   it(`injects the ITERATION, MAX_ITERATIONS into the loop`);
 });
