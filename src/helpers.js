@@ -24,7 +24,7 @@ module.exports = {
       for (let i = 0; i < options.max; i++) {
         try {
           result = null;
-          await action();
+          await action(i, options.max);
           if (!options.repeat) {
             break;
           }

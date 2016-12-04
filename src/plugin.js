@@ -52,11 +52,17 @@ module.exports = function plugin({types: t}) {
 
         if (t.isFunctionExpression(argument) || t.isArrowFunctionExpression(argument)) {
           argument.iife = true;
+          argument.params = argument.params || [];
+          argument.params.unshift(t.identifier(`MAX_ITERATIONS`));
+          argument.params.unshift(t.identifier(`ITERATION`));
           return argument;
         }
 
         return t.arrowFunctionExpression(
-          [],
+          [
+            t.identifier(`ITERATION`),
+            t.identifier(`MAX_ITERATIONS`)
+          ],
           t.blockStatement(
             [t.returnStatement(argument)]
           ),

@@ -95,5 +95,19 @@ describe(`retry`, () => {
       .then(() => assert.callCount(spy, 3));
   });
 
-  it(`injects the ITERATION, MAX_ITERATIONS into the loop`);
+  it(`injects the ITERATION, MAX_ITERATIONS into the loop`, () => {
+    const spy = sinon.spy();
+    const code = transform(`
+      retry({max: 3, repeat: true},
+        (function() {
+          assert.equal(ITERATION, spy.callCount);
+          spy();
+          assert.equal(MAX_ITERATIONS, 3);
+        })
+      )
+    `);
+
+    return assert.isFulfilled(eval(code))
+      .then(() => assert.callCount(spy, 3));
+  });
 });
