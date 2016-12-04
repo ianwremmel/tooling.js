@@ -35,6 +35,21 @@ describe(`retry`, () => {
       .then(() => assert.callCount(spy, 3));
   });
 
+  it(`defaults to three retries if no options are specified`, () => {
+    const spy = sinon.spy();
+    const code = transform(`
+      retry(
+        new Promise((resolve, reject) => {
+          spy();
+          reject(new Error('expected failure'));
+        })
+      )
+    `);
+
+    return assert.isRejected(eval(code), /expected failure/)
+      .then(() => assert.callCount(spy, 3));
+  });
+
   it(`retries synchronous failures`);
   it(`injects the ITERATION, MAX_ITERATIONS into the loop`);
 });
