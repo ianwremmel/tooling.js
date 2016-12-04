@@ -40,6 +40,12 @@ module.exports = function plugin({types: t}) {
     }
   }
 
+  function awaitWrap(path) {
+    if (!t.isAwaitExpression(path.parentPath)) {
+      path.replaceWith(t.awaitExpression(path.node));
+    }
+  }
+
   function replaceFunction(object, property, path) {
     path.replaceWith(t.callExpression(
       t.memberExpression(
@@ -57,13 +63,11 @@ module.exports = function plugin({types: t}) {
         }
         else if (path.get(`callee`).isIdentifier({name: `sh`})) {
           addSh(path, state);
-          path.replaceWith(t.awaitExpression(path.node));
-          // Stop descending to prevent the recursion caused by adding the
-          // awaitExpression
-          path.skip();
+          awaitWrap(path);
         }
         else if (path.get(`callee`).isIdentifier({name: `parallel`})) {
           addParallel(path, state);
+          awaitWrap(path);
         }
       }
     }
