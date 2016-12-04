@@ -149,6 +149,8 @@ const one = sh(`echo 1`, {complex: true}).stdout;
 - implement env
 - implement exit
 - implement helpers for npm, docker, jenkins
+- capture stdout/stderr
+- accept script via pipe
 
 ## Contribute
 
