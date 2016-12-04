@@ -117,6 +117,44 @@ parallel(
 );
 ```
 
+### retry
+
+Execute an expression multiple times.
+
+#### Options
+- repeat: Boolean - if true, the expression will be executed max times, even if it succeeds. default: false
+- max: Number - maximum number of iterations. default: 3
+
+```javascript
+retry(
+  new Promise((resolve, reject) => {
+    reject(new Error(`this will fail 3 times`));
+  })
+)
+```
+
+> Note: rejected Promises *must* be rejected with `Error` objects. This seems to have something to do with babel's async/await support.
+
+```javascript
+retry({max: 2, repeat: true}
+  new Promise((resolve) => {
+    console.log(`this will print twice`);
+  })
+)
+```
+
+The variables ITERATION and MAX_ITERATIONS are injected into the running expression.
+
+```javascript
+retry({max: 2, repeat: true}
+  new Promise((resolve) => {
+    console.log(`{ITERATION} out of ${MAX_ITERATIONS}`);
+  })
+)
+```
+
+> Note: `ITERATION` is zero-based, so will never equal `MAX_ITERATIONS`.
+
 ### sh
 
 Execute a shell command "synchronously" (actually wraps `child_process.spawn` in a promise and drops an `await` in front of it).
@@ -140,7 +178,6 @@ const one = sh(`echo 1`, {complex: true}).stdout;
 
 # Roadmap
 
-- implement retry
 - parallel
   - support max concurrency
   - suppress errors (optional?)
