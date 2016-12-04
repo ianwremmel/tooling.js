@@ -40,7 +40,41 @@ module.exports = function plugin({types: t}) {
     }
   }
 
-  function awaitWrap(path) {
+  function addRetry(path, state) {
+    if (!state.retry) {
+      state.retry = path.scope.generateUidIdentifier(`retry`);
+      const helper = helpers.retry();
+
+      path.node.arguments = path.node.arguments.map((argument) => {
+        if (t.isObjectExpression(argument)) {
+          return argument;
+        }
+
+        if (t.isFunctionExpression(argument) || t.isArrowFunctionExpression(argument)) {
+          argument.iife = true;
+          argument.params = argument.params || [];
+          argument.params.unshift(t.identifier(`MAX_ITERATIONS`));
+          argument.params.unshift(t.identifier(`ITERATION`));
+          return argument;
+        }
+
+        return t.arrowFunctionExpression(
+          [
+            t.identifier(`ITERATION`),
+            t.identifier(`MAX_ITERATIONS`)
+          ],
+          t.blockStatement(
+            [t.returnStatement(argument)]
+          ),
+          true
+        );
+      });
+
+      path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
+    }
+  }
+
+  function wrapWithAwait(path) {
     if (!t.isAwaitExpression(path.parentPath)) {
       path.replaceWith(t.awaitExpression(path.node));
     }
@@ -63,11 +97,15 @@ module.exports = function plugin({types: t}) {
         }
         else if (path.get(`callee`).isIdentifier({name: `sh`})) {
           addSh(path, state);
-          awaitWrap(path);
+          wrapWithAwait(path);
         }
         else if (path.get(`callee`).isIdentifier({name: `parallel`})) {
           addParallel(path, state);
-          awaitWrap(path);
+          wrapWithAwait(path);
+        }
+        else if (path.get(`callee`).isIdentifier({name: `retry`})) {
+          addRetry(path, state);
+          wrapWithAwait(path);
         }
       }
     }

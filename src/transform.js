@@ -18,6 +18,11 @@ module.exports = function transform(code) {
     ]
   }).code;
 
+  if (process.env.LOG_INTERMEDIATE) {
+    // eslint-disable-next-line no-console
+    console.info(code);
+  }
+
   // Apply env-required transforms - this is done as two different steps to make
   // sure our transforms happen first
   code = babel.transform(code, {
