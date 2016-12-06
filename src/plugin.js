@@ -95,6 +95,9 @@ module.exports = function plugin({types: t}) {
         if (path.get(`callee`).isIdentifier({name: `echo`})) {
           replaceFunction(`console`, `log`, path);
         }
+        if (path.get(`callee`).isIdentifier({name: `exit`})) {
+          replaceFunction(`process`, `exit`, path);
+        }
         else if (path.get(`callee`).isIdentifier({name: `sh`})) {
           addSh(path, state);
           wrapWithAwait(path);
