@@ -19,8 +19,15 @@ module.exports = function transform(code) {
   }).code;
 
   if (process.env.LOG_INTERMEDIATE) {
-    // eslint-disable-next-line no-console
+    /* eslint-disable no-console */
+    console.info();
+    console.info();
+    console.info();
     console.info(code);
+    console.info();
+    console.info();
+    console.info();
+    /* eslint-enable */
   }
 
   // Apply env-required transforms - this is done as two different steps to make

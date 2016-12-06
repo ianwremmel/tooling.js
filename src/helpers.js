@@ -5,8 +5,56 @@ const template = require(`babel-template`);
 
 module.exports = {
   parallel: template(`
-    async function parallel(...args) {
-      return await Promise.all(args);
+    async function parallel(options, ...args) {
+      if (typeof options !== "object") {
+        args.unshift(options);
+        options = {};
+      }
+
+      let max = options.concurrency;
+
+      if (!max) {
+        // return Promise.all(args);
+        max = args.length;
+      }
+
+      const results = [];
+      const iter = makeIterator();
+
+      const promises = [];
+      for (let i = 0; i < max; i++) {
+        promises.push(tick());
+      }
+
+      await Promise.all(promises);
+      return results;
+
+      function* makeIterator() {
+        for (let i = 0; i < args.length; i++) {
+          yield invoke(args[i], i);
+        }
+      }
+
+      async function invoke(arg, i) {
+        results[i] = await arg();
+      }
+
+      async function tick() {
+        const next = iter.next();
+        if (next.done) {
+          return null;
+        }
+
+        await next.value;
+        try {
+          const ret = await tick();
+          return ret;
+        }
+        catch (reason) {
+          console.error(reason);
+          throw reason;
+        }
+      }
     };
   `),
 

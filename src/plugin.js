@@ -17,18 +17,40 @@ module.exports = function plugin({types: t}) {
       const helper = helpers.parallel();
       // Ideally, this would be done with via template, but I couldn't figure
       // out how to get the types to line up.
-      const args = path.node.arguments.map((argument) => t.newExpression(
-        t.identifier(`Promise`),
-        [t.arrowFunctionExpression(
-          [t.identifier(`resolve`)],
-          t.callExpression(
-            t.identifier(`resolve`),
-            [argument]
+      const args = path.node.arguments.map((argument) => {
+        if (t.isObjectExpression(argument)) {
+          return argument;
+        }
+
+        if (t.isFunctionExpression(argument) || t.isArrowFunctionExpression(argument)) {
+          argument.iife = true;
+          argument.params = argument.params || [];
+          argument.params.unshift(t.identifier(`MAX_ITERATIONS`));
+          argument.params.unshift(t.identifier(`ITERATION`));
+        }
+        else {
+          argument = t.newExpression(
+            t.identifier(`Promise`),
+            [t.arrowFunctionExpression(
+              [t.identifier(`resolve`)],
+              t.callExpression(
+                t.identifier(`resolve`),
+                [argument]
+              ),
+              // make it async:
+              true
+            )]
+          );
+        }
+
+        return t.arrowFunctionExpression(
+          [],
+          t.blockStatement(
+            [t.returnStatement(argument)]
           ),
-          // make it async:
           true
-        )]
-      ));
+        );
+      });
 
       path.replaceWith(
         t.callExpression(
