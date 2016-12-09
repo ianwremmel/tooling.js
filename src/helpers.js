@@ -10,6 +10,18 @@ module.exports = {
     };
   `),
 
+  returnCwd: template(`
+    function returnCwd() {
+      return process.cwd();
+    }
+  `),
+
+  printCwd: template(`
+    function printCwd() {
+      echo(process.cwd());
+    }
+  `),
+
   retry: template(`
     async function retry(options, action) {
       if (!action) {
