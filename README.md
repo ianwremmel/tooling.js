@@ -179,17 +179,16 @@ const one = sh(`echo 1`, {complex: true}).stdout;
 
 # Roadmap
 
+- parallel
+  - support max concurrency
+  - suppress errors (optional?)
+  - figure out how to augment the babylon parser so that e.g. try/catch statements can be passed as arguments
 - implement cwd
 - implement env
 - implement exit
-- capture stdout/stderr
-  - implement something like tee?
-- accept script via pipe
-- parallel
-  - suppress errors (optional?)
-  - figure out how to augment the babylon parser so that e.g. try/catch statements can be passed as arguments
 - implement helpers for npm, docker, jenkins
-
+- capture stdout/stderr
+- accept script via pipe
 
 ## Contribute
 
