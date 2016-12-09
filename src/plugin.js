@@ -92,7 +92,10 @@ module.exports = function plugin({types: t}) {
   return {
     visitor: {
       CallExpression(path, state) {
-        if (path.get(`callee`).isIdentifier({name: `echo`})) {
+        if (path.get(`callee`).isIdentifier({name: `cd`})) {
+          replaceFunction(`process`, `chdir`, path);
+        }
+        else if (path.get(`callee`).isIdentifier({name: `echo`})) {
           replaceFunction(`console`, `log`, path);
         }
         if (path.get(`callee`).isIdentifier({name: `exit`})) {
