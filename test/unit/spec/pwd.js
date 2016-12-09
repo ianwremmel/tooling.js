@@ -6,11 +6,13 @@ const transform = require(`../../../src/transform`);
 const cp = require(`child_process`);
 
 describe(`pwd`, () => {
-  let spy;
+  let current, spy;
   beforeEach(() => {
     spy = sinon.spy(console, `log`);
+    current = process.cwd();
   });
   afterEach(() => spy.restore());
+  afterEach(() => process.chdir(current));
 
   it(`prints the current directory`, (done) => {
     const code = transform(`

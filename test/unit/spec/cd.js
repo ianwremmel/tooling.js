@@ -5,11 +5,13 @@ const sinon = require(`sinon`);
 const transform = require(`../../../src/transform`);
 
 describe(`cd`, () => {
-  let spy;
+  let current, spy;
   beforeEach(() => {
     spy = sinon.spy(console, `log`);
+    current = process.cwd();
   });
   afterEach(() => spy.restore());
+  afterEach(() => process.chdir(current));
 
   it(`changes the current directory`, () => {
     // eslint-disable-next-line no-unused-vars
