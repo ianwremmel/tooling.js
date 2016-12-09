@@ -3,6 +3,38 @@
 const helpers = require(`./helpers`);
 
 module.exports = function plugin({types: t}) {
+  /*
+   * Utility Functions
+   */
+  function addHelper(helperName, path, state) {
+    if (!state[helperName]) {
+      state[helperName] = path.scope.generateUidIdentifier(helperName);
+      const helper = helpers[helperName];
+      if (!helper) {
+        throw new Error(`helper ${helperName} not found`);
+      }
+      path.scope.getProgramParent().path.unshiftContainer(`body`, helper());
+    }
+  }
+
+  function wrapWithAwait(path) {
+    if (!t.isAwaitExpression(path.parentPath)) {
+      path.replaceWith(t.awaitExpression(path.node));
+    }
+  }
+
+  function replaceFunction(object, property, path) {
+    path.replaceWith(t.callExpression(
+      t.memberExpression(
+        t.identifier(object), t.identifier(property)
+      ),
+      path.node.arguments
+    ));
+  }
+
+  /*
+   * transforms
+   */
   function addSh(path, state) {
     if (!state.sh) {
       state.sh = path.scope.generateUidIdentifier(`sh`);
@@ -37,17 +69,6 @@ module.exports = function plugin({types: t}) {
         )
       );
       path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
-    }
-  }
-
-  function addHelper(helperName, path, state) {
-    if (!state.pwd) {
-      state.pwd = path.scope.generateUidIdentifier(`pwd`);
-      const helper = helpers[helperName];
-      if (!helper) {
-        throw new Error(`helper ${helperName} not found`);
-      }
-      path.scope.getProgramParent().path.unshiftContainer(`body`, helper());
     }
   }
 
@@ -100,21 +121,6 @@ module.exports = function plugin({types: t}) {
 
       path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
     }
-  }
-
-  function wrapWithAwait(path) {
-    if (!t.isAwaitExpression(path.parentPath)) {
-      path.replaceWith(t.awaitExpression(path.node));
-    }
-  }
-
-  function replaceFunction(object, property, path) {
-    path.replaceWith(t.callExpression(
-      t.memberExpression(
-        t.identifier(object), t.identifier(property)
-      ),
-      path.node.arguments
-    ));
   }
 
   return {
