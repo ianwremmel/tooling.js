@@ -40,9 +40,8 @@ module.exports = function plugin({types: t}) {
   }
 
   function addParallel(path, state) {
-    if (!state.parallel) {
-      state.parallel = path.scope.generateUidIdentifier(`parallel`);
-      const helper = helpers.parallel();
+    addHelper(`parallel`, path, state);
+    if (t.isExpressionStatement(path.parentPath)) {
       // Ideally, this would be done with via template, but I couldn't figure
       // out how to get the types to line up.
       const args = path.node.arguments.map((argument) => t.newExpression(
@@ -64,7 +63,6 @@ module.exports = function plugin({types: t}) {
           args
         )
       );
-      path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
     }
   }
 
