@@ -36,11 +36,7 @@ module.exports = function plugin({types: t}) {
    * transforms
    */
   function addSh(path, state) {
-    if (!state.sh) {
-      state.sh = path.scope.generateUidIdentifier(`sh`);
-      const helper = helpers.sh();
-      path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
-    }
+    addHelper(`sh`, path, state);
   }
 
   function addParallel(path, state) {
