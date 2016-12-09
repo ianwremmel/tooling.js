@@ -40,6 +40,34 @@ module.exports = function plugin({types: t}) {
     }
   }
 
+  function addHelper(helperName, path, state) {
+    if (!state.pwd) {
+      state.pwd = path.scope.generateUidIdentifier(`pwd`);
+      const helper = helpers[helperName];
+      if (!helper) {
+        throw new Error(`helper ${helperName} not found`);
+      }
+      path.scope.getProgramParent().path.unshiftContainer(`body`, helper());
+    }
+  }
+
+  function addPwd(path, state) {
+    if (t.isExpressionStatement(path.parentPath)) {
+      addHelper(`printCwd`, path, state);
+      path.replaceWith(t.callExpression(
+        t.identifier(`printCwd`),
+        []
+      ));
+    }
+    else {
+      addHelper(`returnCwd`, path, state);
+      path.replaceWith(t.callExpression(
+        t.identifier(`returnCwd`),
+        []
+      ));
+    }
+  }
+
   function addRetry(path, state) {
     if (!state.retry) {
       state.retry = path.scope.generateUidIdentifier(`retry`);
@@ -108,6 +136,9 @@ module.exports = function plugin({types: t}) {
         else if (path.get(`callee`).isIdentifier({name: `parallel`})) {
           addParallel(path, state);
           wrapWithAwait(path);
+        }
+        if (path.get(`callee`).isIdentifier({name: `pwd`})) {
+          addPwd(path, state);
         }
         else if (path.get(`callee`).isIdentifier({name: `retry`})) {
           addRetry(path, state);
