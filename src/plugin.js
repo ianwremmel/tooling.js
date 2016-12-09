@@ -86,37 +86,38 @@ module.exports = function plugin({types: t}) {
   }
 
   function addRetry(path, state) {
-    if (!state.retry) {
-      state.retry = path.scope.generateUidIdentifier(`retry`);
-      const helper = helpers.retry();
+    addHelper(`retry`, path, state);
+    path.node.arguments = path.node.arguments.map((argument) => {
+      if (t.isObjectExpression(argument)) {
+        return argument;
+      }
 
-      path.node.arguments = path.node.arguments.map((argument) => {
-        if (t.isObjectExpression(argument)) {
+      if (argument.params && argument.params.length) {
+        const first = argument.params[0];
+        if (first.name === `ITERATION`) {
           return argument;
         }
+      }
 
-        if (t.isFunctionExpression(argument) || t.isArrowFunctionExpression(argument)) {
-          argument.iife = true;
-          argument.params = argument.params || [];
-          argument.params.unshift(t.identifier(`MAX_ITERATIONS`));
-          argument.params.unshift(t.identifier(`ITERATION`));
-          return argument;
-        }
+      if (t.isFunctionExpression(argument) || t.isArrowFunctionExpression(argument)) {
+        argument.iife = true;
+        argument.params = argument.params || [];
+        argument.params.unshift(t.identifier(`MAX_ITERATIONS`));
+        argument.params.unshift(t.identifier(`ITERATION`));
+        return argument;
+      }
 
-        return t.arrowFunctionExpression(
-          [
-            t.identifier(`ITERATION`),
-            t.identifier(`MAX_ITERATIONS`)
-          ],
+      return t.arrowFunctionExpression(
+        [
+          t.identifier(`ITERATION`),
+          t.identifier(`MAX_ITERATIONS`)
+        ],
           t.blockStatement(
             [t.returnStatement(argument)]
           ),
           true
         );
-      });
-
-      path.scope.getProgramParent().path.unshiftContainer(`body`, helper);
-    }
+    });
   }
 
   return {
