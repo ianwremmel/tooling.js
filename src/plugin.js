@@ -119,6 +119,7 @@ module.exports = function plugin({types: t}) {
 
   return {
     visitor: {
+      // eslint-disable-next-line complexity
       CallExpression(path, state) {
         if (path.get(`callee`).isIdentifier({name: `cd`})) {
           replaceFunction(`process`, `chdir`, path);
@@ -126,12 +127,8 @@ module.exports = function plugin({types: t}) {
         else if (path.get(`callee`).isIdentifier({name: `echo`})) {
           replaceFunction(`console`, `log`, path);
         }
-        if (path.get(`callee`).isIdentifier({name: `exit`})) {
+        else if (path.get(`callee`).isIdentifier({name: `exit`})) {
           replaceFunction(`process`, `exit`, path);
-        }
-        else if (path.get(`callee`).isIdentifier({name: `sh`})) {
-          addSh(path, state);
-          wrapWithAwait(path);
         }
         else if (path.get(`callee`).isIdentifier({name: `parallel`})) {
           addParallel(path, state);
@@ -142,6 +139,10 @@ module.exports = function plugin({types: t}) {
         }
         else if (path.get(`callee`).isIdentifier({name: `retry`})) {
           addRetry(path, state);
+          wrapWithAwait(path);
+        }
+        else if (path.get(`callee`).isIdentifier({name: `sh`})) {
+          addSh(path, state);
           wrapWithAwait(path);
         }
       }
