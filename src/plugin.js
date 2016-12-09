@@ -17,12 +17,6 @@ module.exports = function plugin({types: t}) {
     }
   }
 
-  function wrapWithAwait(path) {
-    if (!t.isAwaitExpression(path.parentPath)) {
-      path.replaceWith(t.awaitExpression(path.node));
-    }
-  }
-
   function replaceFunction(object, property, path) {
     path.replaceWith(t.callExpression(
       t.memberExpression(
@@ -32,13 +26,15 @@ module.exports = function plugin({types: t}) {
     ));
   }
 
+  function wrapWithAwait(path) {
+    if (!t.isAwaitExpression(path.parentPath)) {
+      path.replaceWith(t.awaitExpression(path.node));
+    }
+  }
+
   /*
    * transforms
    */
-  function addSh(path, state) {
-    addHelper(`sh`, path, state);
-  }
-
   function addParallel(path, state) {
     addHelper(`parallel`, path, state);
     if (t.isExpressionStatement(path.parentPath)) {
@@ -116,6 +112,10 @@ module.exports = function plugin({types: t}) {
           true
         );
     });
+  }
+
+  function addSh(path, state) {
+    addHelper(`sh`, path, state);
   }
 
   return {
