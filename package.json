@@ -14,7 +14,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "babel-core": "^6.18.2",
+    "babel-core": "^6.20.0",
     "babel-preset-env": "0.0.9",
     "babel-register": "^6.18.0",
     "babel-template": "^6.16.0",
@@ -31,7 +31,7 @@
     "eslint": "^3.10.2",
     "eslint-plugin-mocha": "^4.7.0",
     "mocha": "^3.1.2",
-    "semantic-release": "^6.3.2",
+    "semantic-release": "^6.3.5",
     "sinon": "1.17.6"
   },
   "release": {
