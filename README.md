@@ -93,6 +93,15 @@ else {
 
 ## API
 
+### cd
+
+Changes the current directory
+
+```javascript
+const os = require(`os`);
+cd(os.tmpdir());
+```
+
 ### echo
 
 Shorthand for `console.log`.
@@ -116,6 +125,20 @@ parallel(
   }),
   console.log(3)
 );
+```
+
+### pwd
+
+prints the current directory when not assigned or returns it when assigned.
+
+#### prints the current directory
+```javascript
+pwd()
+```
+
+#### returns and does not print the current directory
+```javascript
+const dir = pwd()
 ```
 
 ### retry
