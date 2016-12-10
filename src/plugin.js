@@ -120,6 +120,19 @@ module.exports = function plugin({types: t}) {
 
   return {
     visitor: {
+      AssignmentExpression(path) {
+        if (t.isMemberExpression(path.node.left)) {
+          if (path.node.left.object.name === `env`) {
+            path.node.left = t.memberExpression(
+              t.memberExpression(
+                t.identifier(`process`),
+                t.identifier(`env`)
+              ),
+              path.node.left.property
+            );
+          }
+        }
+      },
       // eslint-disable-next-line complexity
       CallExpression(path, state) {
         if (path.get(`callee`).isIdentifier({name: `cd`})) {
