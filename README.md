@@ -110,6 +110,14 @@ Shorthand for `console.log`.
 echo(`1`)
 ```
 
+### env
+
+Shorthand for `process.env`.
+
+```javascript
+env.TEST_VAR = 5;
+```
+
 ### parallel
 
 Run multiple items in parallel. Note: every argument is wrapped in a promise, so arguments can be anything that can be passed to a function.
