@@ -127,6 +127,20 @@ parallel(
 );
 ```
 
+### pwd
+
+prints the current directory when not assigned or returns it when assigned.
+
+#### prints the current directory
+```javascript
+pwd()
+```
+
+#### returns and does not print the current directory
+```javascript
+const dir = pwd()
+```
+
 ### retry
 
 Execute an expression multiple times.
