@@ -159,6 +159,9 @@ module.exports = function plugin({types: t}) {
           addSh(path, state);
           wrapWithAwait(path);
         }
+        else if (path.get(`callee`).isIdentifier({name: `tee`})) {
+          addHelper(`tee`, path, state);
+        }
       }
     }
   };

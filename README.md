@@ -90,7 +90,6 @@ else {
 }
 ```
 
-
 ## API
 
 ### cd
@@ -206,6 +205,36 @@ catch(err) {
 
 ```javascript
 const one = sh(`echo 1`, {complex: true}).stdout;
+```
+
+## tee
+
+Send stderr/stdout to additional locations.
+
+#### Send stderr and stdout to a single file while continuing to print to the console
+
+```javascript
+tee({file: `out.log`, stderr: true, stdout: true});
+echo(1);
+```
+
+#### Supress output while redirecting stdout and stderr
+
+```javascript
+tee({file: `out.log`, stderr: true, stdout: true});
+tee.silent = true;
+echo(1);
+```
+> Note: Though it doesn't matter when you sent `tee.silent`, doing so won't have any impact until after tee is called for the first time.
+
+#### Redirect only certain parts of your script
+
+```javascript
+echo(1);
+const t = tee({file: `out.log`, stderr: true, stdout: true})
+echo(2);
+t.stop();
+echo(3);
 ```
 
 # Roadmap
