@@ -93,6 +93,15 @@ else {
 
 ## API
 
+### cd
+
+Changes the current directory
+
+```javascript
+const os = require(`os`);
+cd(os.tmpdir());
+```
+
 ### echo
 
 Shorthand for `console.log`.
