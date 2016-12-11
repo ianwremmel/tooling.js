@@ -1,6 +1,7 @@
 "use strict";
 
 const sh = require(`./sh`);
+const tee = require(`./helpers/tee`);
 const template = require(`babel-template`);
 
 module.exports = {
@@ -10,15 +11,15 @@ module.exports = {
     };
   `),
 
-  returnCwd: template(`
-    function returnCwd() {
-      return process.cwd();
-    }
-  `),
-
   printCwd: template(`
     function printCwd() {
       echo(process.cwd());
+    }
+  `),
+
+  returnCwd: template(`
+    function returnCwd() {
+      return process.cwd();
     }
   `),
 
@@ -51,5 +52,7 @@ module.exports = {
     }
   `),
 
-  sh: template(sh.toString())
+  sh: template(sh.toString()),
+
+  tee: template(tee.toString())
 };
