@@ -121,6 +121,10 @@ env.TEST_VAR = 5;
 
 Run multiple items in parallel. Note: every argument is wrapped in a promise, so arguments can be anything that can be passed to a function.
 
+#### Options
+- concurrency: Number - maximum number of concurrent tasks to execute
+
+
 ```javascript
 parallel(
   console.log(1),
@@ -131,6 +135,19 @@ parallel(
     })
   }),
   console.log(3)
+);
+```
+
+```javascript
+parallel({concurrency: 2},
+    console.log(1),
+    new Promise((resolve) => {
+      process.nextTick(() => {
+        console.log(2);
+        resolve();
+      })
+    }),
+    console.log(3)
 );
 ```
 
@@ -236,19 +253,6 @@ echo(2);
 t.stop();
 echo(3);
 ```
-
-# Roadmap
-
-- parallel
-  - support max concurrency
-  - suppress errors (optional?)
-  - figure out how to augment the babylon parser so that e.g. try/catch statements can be passed as arguments
-- implement cwd
-- implement env
-- implement exit
-- implement helpers for npm, docker, jenkins
-- capture stdout/stderr
-- accept script via pipe
 
 ## Contribute
 
