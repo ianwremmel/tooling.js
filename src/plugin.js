@@ -37,28 +37,56 @@ module.exports = function plugin({types: t}) {
    */
   function addParallel(path, state) {
     addHelper(`parallel`, path, state);
-    if (t.isExpressionStatement(path.parentPath)) {
-      // Ideally, this would be done with via template, but I couldn't figure
-      // out how to get the types to line up.
-      const args = path.node.arguments.map((argument) => t.newExpression(
-        t.identifier(`Promise`),
-        [t.arrowFunctionExpression(
-          [t.identifier(`resolve`)],
-          t.callExpression(
-            t.identifier(`resolve`),
-            [argument]
-          ),
-          // make it async:
-          true
-        )]
-      ));
+    // Ideally, this would be done with via template, but I couldn't figure
+    // out how to get the types to line up.
+    const args = path.node.arguments.map((argument) => {
+      if (t.isObjectExpression(argument)) {
+        return argument;
+      }
 
+      if (argument.parallelVisited) {
+        return argument;
+      }
+
+      if (t.isFunctionExpression(argument) || t.isArrowFunctionExpression(argument)) {
+        argument.iife = true;
+        argument.params = argument.params || [];
+      }
+      else {
+        argument = t.newExpression(
+          t.identifier(`Promise`),
+          [t.arrowFunctionExpression(
+            [t.identifier(`resolve`)],
+            t.callExpression(
+              t.identifier(`resolve`),
+              [argument]
+            ),
+            // make it async:
+            true
+          )]
+        );
+      }
+
+      argument = t.arrowFunctionExpression(
+      [],
+      t.blockStatement(
+        [t.returnStatement(argument)]
+      ),
+      true
+    );
+
+      argument.parallelVisited = true;
+      return argument;
+    });
+
+    if (!path.replaced) {
       path.replaceWith(
-        t.callExpression(
-          t.identifier(`parallel`),
-          args
-        )
-      );
+      t.callExpression(
+        t.identifier(`parallel`),
+        args
+      )
+    );
+      path.replaced = true;
     }
   }
 
