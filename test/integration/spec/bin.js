@@ -16,4 +16,12 @@ describe(`bin`, () => {
 
     assert.equal(stdout, `1\n2\n3\n4\n`);
   });
+
+  it(`accepts a script via pipe`, () => {
+    const code = `sh("echo 1")`;
+
+    const toolingPath = path.join(__dirname, `../../../bin/tooling`);
+    const out = cp.execSync(`echo '${code}' | ${toolingPath}`);
+    assert.equal(out.toString(), `1\n`);
+  });
 });

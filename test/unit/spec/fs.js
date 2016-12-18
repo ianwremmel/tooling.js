@@ -48,6 +48,10 @@ describe(`fs`, () => {
       sh("rm -rf test1/test2/test3")
     `)));
 
+    afterEach(() => eval(transform(`
+      sh("rm -rf test1/test2/test3")
+    `)));
+
     it(`automatically behaves like mkdirp`, () => {
       const code = transform(`
         mkdir("test1/test2/test3");

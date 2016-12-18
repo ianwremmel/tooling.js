@@ -1,12 +1,38 @@
-#!/bin/bash
+#!/usr/bin/env node
+'use strict';
+/* eslint global-require: [0] */
+/* eslint no-console: [0] */
+/* eslint no-eval: [0] */
+/* eslint no-process-exit: [0] */
+/* eslint no-var: [0] */
+/* eslint quotes: [2, single] */
 
-set -e
+var path = require('path');
 
-if [ -z "${1}" ]; then
-  echo "usage: tooling ./script.js"
-  exit -1
-fi
+switch (process.argv.length) {
+case 2:
+  var data = '';
 
-# START_DIR=$(pwd)
-MODULE_ROOT=$(dirname $(dirname $0))
-node -r "${MODULE_ROOT}/src/tooling.js" "${1}"
+  process.stdin.on('data', (d) => {
+    data += d;
+  });
+
+  process.stdin.on('end', () => {
+    var transform = require('../');
+    eval(transform(data));
+  });
+
+  process.stdin.resume();
+  break;
+case 3:
+    // assume we've received a file name
+  require('../register');
+  require(path.join(process.cwd(), process.argv[2]));
+  break;
+default:
+  console.warn('Usage: tooling <your script>');
+  console.warn('or');
+  console.warn('Usage: <your javascript> | tooling');
+
+  process.exit(64);
+}
