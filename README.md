@@ -48,7 +48,9 @@ Invoke tooling.js with
 tooling.js automation.js
 ```
 
-Note that in addition to inject the globals described below, tooling.js wraps your script in an async IIFE, thus allowing you to use the await keyword at the top level of your script.
+In addition to injecting the globals described below, tooling.js wraps your script in an async IIFE, thus allowing you to use the await keyword at the top level of your script.
+
+> Note: Due to the semantics of the `import` and `export`, scripts that use the `export` keyword will *not* be wrapped in an async IIFE and all `import` statements *must* be at the top of the script.
 
 ### Examples
 
