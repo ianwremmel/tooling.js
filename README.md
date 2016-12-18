@@ -100,23 +100,23 @@ else {
 
 ### require-hook
 
-Tooling.js provides a require hook at `@ianremmel/tooling.js/register`. The following should work:
+Tooling.js provides a require hook at `@ianwremmel/tooling.js/register`. The following should work:
 
 ```bash
-node -r @ianremmel/tooling.js/register automation.js
+node -r @ianwremmel/tooling.js/register automation.js
 ```
 
 or
 
 ```javascript
-require(`@ianremmel/tooling.js/register`);
+require(`@ianwremmel/tooling.js/register`);
 require(`./automation.js`);
 ```
 
 ### Programmtic API
 
 ```javascript
-const transform = require(`@ianremmel/tooling.js`);
+const transform = require(`@ianwremmel/tooling.js`);
 eval(transform(require(`./automation.js`)));
 ```
 
