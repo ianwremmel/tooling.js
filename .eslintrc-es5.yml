@@ -15,7 +15,8 @@ rules:
       - "never"
     no-cond-assign:
       - 2
-      - "always"
+      # Allow conditional assign for e.g. regex while loops
+      - "except-parens"
     no-console:
       - 2
     no-constant-condition:

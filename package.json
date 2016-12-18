@@ -9,7 +9,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "mocha ./test/*/spec/**/*.js",
     "posttest": "npm run test:lint",
-    "test:lint": "eslint src test --ignore-pattern test/integration/fixtures/example.js"
+    "test:lint": "eslint src test --ignore-pattern test/integration/fixtures"
   },
   "author": "",
   "license": "MIT",
