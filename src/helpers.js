@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const sh = require(`./sh`);
 const tee = require(`./helpers/tee`);

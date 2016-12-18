@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const babel = require(`babel-core`);
 const babelPluginTransformTooling = require(`./plugin`);

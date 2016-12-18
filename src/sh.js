@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = function sh(str, options) {
   options = options || {};
