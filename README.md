@@ -92,6 +92,16 @@ else {
 
 ## API
 
+### node fs functions
+
+All async functions from [`fs`](https://nodejs.org/api/fs.html) are promisified and automatically prefixed with `await`. `mkdir` is replaced by [mkirp](https://github.com/substack/node-mkdirp).
+
+```javascript
+const file = readFile(`in.txt`)
+```
+
+> `readFile` defaults to utf8 encoding
+
 ### cd
 
 Changes the current directory
@@ -163,6 +173,14 @@ pwd()
 #### returns and does not print the current directory
 ```javascript
 const dir = pwd()
+```
+
+### readJSON
+
+Reads a file and parses its contents as JSON. Will throw if the file does not contain valid JSON.
+
+```javascript
+const json = readJSON(`in.json`);
 ```
 
 ### retry

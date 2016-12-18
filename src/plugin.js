@@ -2,6 +2,44 @@
 
 const helpers = require(`./helpers`);
 
+const fsMethods = [
+  `access`,
+  `appendFile`,
+  `chmod`,
+  `chown`,
+  `close`,
+  `exists`,
+  `fchmod`,
+  `fchown`,
+  `fdatasync`,
+  `fstat`,
+  `fsync`,
+  `ftruncate`,
+  `futimes`,
+  `lchmod`,
+  `lchown`,
+  `link`,
+  `lstat`,
+  // Note: skipping mkdir so that we can replace it with mkdirp
+  // `mkdir`,
+  `mkdtemp`,
+  `open`,
+  `read`,
+  `readFile`,
+  `readdir`,
+  `readlink`,
+  `realpath`,
+  `rename`,
+  `rmdir`,
+  `stat`,
+  `symlink`,
+  `truncate`,
+  `unlink`,
+  `utimes`,
+  `write`,
+  `writeFile`
+];
+
 module.exports = function plugin({types: t}) {
   /*
    * Utility Functions
@@ -146,6 +184,12 @@ module.exports = function plugin({types: t}) {
     addHelper(`sh`, path, state);
   }
 
+  function replaceFsMethod(methodName, path, state) {
+    addHelper(`fs`, path, state);
+    replaceFunction(`fs`, methodName, path);
+    wrapWithAwait(path);
+  }
+
   return {
     visitor: {
       AssignmentExpression(path) {
@@ -189,6 +233,23 @@ module.exports = function plugin({types: t}) {
         }
         else if (path.get(`callee`).isIdentifier({name: `tee`})) {
           addHelper(`tee`, path, state);
+        }
+        else if (path.get(`callee`).isIdentifier({name: `readJSON`})) {
+          addHelper(`readJSON`, path, state);
+          wrapWithAwait(path);
+        }
+        else if (path.get(`callee`).isIdentifier({name: `mkdir`})) {
+          addHelper(`mkdir`, path, state);
+        }
+        else {
+          fsMethods.forEach((methodName) => {
+            if (path.get(`callee`).isIdentifier({name: methodName})) {
+              if (methodName === `readFile` && path.node.arguments.length === 1) {
+                path.node.arguments.push(t.stringLiteral(`utf8`));
+              }
+              replaceFsMethod(methodName, path, state);
+            }
+          });
         }
       }
     }
