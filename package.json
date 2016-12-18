@@ -18,6 +18,8 @@
     "babel-preset-env": "1.1.4",
     "babel-register": "^6.18.0",
     "babel-template": "^6.16.0",
+    "mkdirp": "^0.5.1",
+    "mz": "^2.6.0",
     "shelljs": "^0.7.5"
   },
   "engines": {

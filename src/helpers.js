@@ -5,6 +5,14 @@ const tee = require(`./helpers/tee`);
 const template = require(`babel-template`);
 
 module.exports = {
+  fs: template(`
+    const fs = require('mz/fs');
+  `),
+
+  mkdir: template(`
+    const mkdir = require('mkdirp');
+  `),
+
   parallel: template(`
     async function parallel(options, ...args) {
       if (typeof options !== "object") {
@@ -62,6 +70,12 @@ module.exports = {
   printCwd: template(`
     function printCwd() {
       echo(process.cwd());
+    }
+  `),
+
+  readJSON: template(`
+    async function readJSON(filename) {
+      return JSON.parse(await readFile(filename));
     }
   `),
 
