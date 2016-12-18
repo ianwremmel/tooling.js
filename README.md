@@ -225,6 +225,11 @@ retry({max: 2, repeat: true}
 
 Execute a shell command "synchronously" (actually wraps `child_process.spawn` in a promise and drops an `await` in front of it).
 
+#### options
+- complex: Boolean - if true, return the full object returned by spawn instead of just stdout
+- spawn: Object - an object of options to pass directly to [spawn](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options).
+
+
 ```javascript
 sh(`echo 1`)
 ```
