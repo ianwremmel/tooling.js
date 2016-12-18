@@ -45,7 +45,13 @@ npm install --save-dev @ianwremmel/tooling.js
 Invoke tooling.js with
 
 ```bash
-tooling.js automation.js
+tooling automation.js
+```
+
+or
+
+```bash
+cat automation.js | tooling
 ```
 
 In addition to injecting the globals described below, tooling.js wraps your script in an async IIFE, thus allowing you to use the await keyword at the top level of your script.
@@ -90,6 +96,28 @@ if (result.code === 1) {
 else {
   echo(`did not exit with one`)
 }
+```
+
+### require-hook
+
+Tooling.js provides a require hook at `@ianremmel/tooling.js/register`. The following should work:
+
+```bash
+node -r @ianremmel/tooling.js/register automation.js
+```
+
+or
+
+```javascript
+require(`@ianremmel/tooling.js/register`);
+require(`./automation.js`);
+```
+
+### Programmtic API
+
+```javascript
+const transform = require(`@ianremmel/tooling.js`);
+eval(transform(require(`./automation.js`)));
 ```
 
 ## API

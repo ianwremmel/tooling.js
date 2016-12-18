@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const assert = require(`chai`).assert;
 const fs = require(`mz/fs`);
@@ -45,6 +45,10 @@ describe(`fs`, () => {
 
   describe(`mkdir()`, () => {
     beforeEach(() => eval(transform(`
+      sh("rm -rf test1/test2/test3")
+    `)));
+
+    afterEach(() => eval(transform(`
       sh("rm -rf test1/test2/test3")
     `)));
 

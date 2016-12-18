@@ -1,7 +1,7 @@
 {
   "name": "@ianwremmel/tooling.js",
   "description": "",
-  "main": "src/tooling.js",
+  "main": "src/transform.js",
   "bin": {
     "tooling": "bin/tooling"
   },
