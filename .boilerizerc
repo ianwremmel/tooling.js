@@ -1,0 +1,21 @@
+{
+  "project": {
+    "js": true,
+    "react": false,
+    "eslint": {
+      "imports": false
+    },
+    "github": true
+  },
+  "github": {
+    "org": "ianwremmel",
+    "project": "tooling.js"
+  },
+  "deployment": {
+    "type": "semrel",
+    "platform": "circle"
+  },
+  "npm": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}

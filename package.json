@@ -1,18 +1,25 @@
 {
   "name": "@ianwremmel/tooling.js",
-  "description": "",
+  "version": "0.0.0-development",
+  "license": "MIT",
   "main": "src/transform.js",
   "bin": {
     "tooling": "bin/tooling"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ianwremmel/tooling.js.git"
   },
   "scripts": {
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "mocha ./test/*/spec/**/*.js",
     "posttest": "npm run test:lint",
-    "test:lint": "eslint src test --ignore-pattern test/integration/fixtures"
+    "test:lint": "eslint src test --ignore-pattern test/integration/fixtures",
+    "lint:staged": "lint-staged",
+    "lint:eslint": "eslint --ignore-path .gitignore",
+    "lint:js": "npm run --silent lint:eslint -- --ignore-pattern test/integration/fixtures .",
+    "lint": "npm run --silent lint:js"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "babel-core": "^6.20.0",
     "babel-preset-env": "1.1.8",
@@ -22,27 +29,33 @@
     "mz": "^2.6.0",
     "shelljs": "^0.7.5"
   },
-  "engines": {
-    "node": ">=6.x"
-  },
   "devDependencies": {
+    "@ianwremmel/eslint-config": "^1.1.1",
     "babel-eslint": "^7.1.1",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "condition-circle": "^1.5.0",
-    "eslint": "^3.10.2",
-    "eslint-plugin-mocha": "^4.7.0",
+    "eslint": "^3.13.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-mocha": "^4.8.0",
+    "eslint-plugin-react": "^6.9.0",
+    "lint-staged": "^3.2.6",
     "mocha": "^3.1.2",
+    "pre-commit": "^1.2.2",
     "semantic-release": "^6.3.5",
     "sinon": "1.17.7"
   },
+  "engines": {
+    "node": ">=6.x"
+  },
+  "lint-staged": {
+    "*.js": "lint:eslint"
+  },
+  "pre-commit": "lint:staged",
   "release": {
     "verifyConditions": [
       "condition-circle"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ianwremmel/tooling.js.git"
   }
 }

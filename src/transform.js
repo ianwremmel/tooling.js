@@ -36,6 +36,7 @@ function asyncWrap(code) {
   if (!EXPORT_PATTERN.test(code)) {
     let lastImport = null;
     let match;
+    // eslint-disable-next-line no-cond-assign
     while ((match = IMPORT_PATTERN.exec(code)) !== null) {
       lastImport = match.index;
     }

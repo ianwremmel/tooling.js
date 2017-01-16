@@ -1,6 +1,5 @@
 extends:
-  - "../.eslintrc-es6.yml"
-  - "../.eslintrc-mocha.yml"
+  - "@ianwremmel/eslint-config/mocha"
 rules:
   max-nested-callbacks:
   - 0
