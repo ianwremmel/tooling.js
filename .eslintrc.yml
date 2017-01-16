@@ -1,10 +1,9 @@
-extends:
-  - ".eslintrc-es6.yml"
+extends: '@ianwremmel'
 rules:
   require-jsdoc:
-  - 0
+    - 0
   no-sync:
-  - 0
+    - 0
   no-use-before-define:
-  - 2
-  - nofunc
+    - 2
+    - nofunc
