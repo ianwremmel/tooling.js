@@ -192,17 +192,17 @@ module.exports = function plugin({types: t}) {
 
   return {
     visitor: {
-      AssignmentExpression(path) {
-        if (t.isMemberExpression(path.node.left)) {
-          if (path.node.left.object.name === `env`) {
-            path.node.left = t.memberExpression(
+      MemberExpression(path) {
+        if (path.node.object.name === `env` && !t.isMemberExpression(path.parentPath.node)) {
+          path.replaceWith(
+            t.memberExpression(
               t.memberExpression(
                 t.identifier(`process`),
                 t.identifier(`env`)
               ),
-              path.node.left.property
-            );
-          }
+              path.node.property
+            )
+          );
         }
       },
       // eslint-disable-next-line complexity
