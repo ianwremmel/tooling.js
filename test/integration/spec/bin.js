@@ -24,4 +24,16 @@ describe(`bin`, () => {
     const out = cp.execSync(`echo '${code}' | ${toolingPath}`);
     assert.equal(out.toString(), `1\n`);
   });
+
+  it(`exits with non-zero code in event of an error`, (done) => {
+    const code = `throw new Error("something went wrong")`;
+
+    const toolingPath = path.join(__dirname, `../../../bin/tooling`);
+    cp.exec(`set -e; set -o pipefail; echo '${code}' | ${toolingPath}`, {
+      shell: `/bin/bash`
+    }, (err) => {
+      assert.equal(err.code, 64);
+      done();
+    });
+  });
 });

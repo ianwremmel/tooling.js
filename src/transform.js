@@ -18,10 +18,11 @@ function isNumber(n) {
  * because I haven't figured out how to extend Babylon. This means that all
  * import statements must come before any potentially async code.
  * @param {string} code
+ * @param {Object} options
  * @private
  * @returns {string}
  */
-function asyncWrap(code) {
+function asyncWrap(code, options) {
   // Note: Had to add \s* because of the way template litterals are written in
   // tests
   const EXPORT_PATTERN = /^\s*export/gm;
@@ -57,15 +58,20 @@ function asyncWrap(code) {
       code = `${importBlock}\n(async function() { ${codeBlock} })()`;
     }
     else {
-      return `(async function() { ${code} })()`;
+      code = `(async function() { ${code} })()`;
+    }
+    if (options && options.exit) {
+      code += `.catch((err) => {console.error(err);process.exit(64);});`;
     }
   }
 
   return code;
 }
 
-module.exports = function transform(code) {
-  code = asyncWrap(code);
+module.exports = function transform(code, options) {
+  options = options || {};
+  code = asyncWrap(code, options);
+
   // The following two transforms should be doable in one step, but because sh
   // uses insertBefore, there's `async` code that doesn't changed to `yield`.
 
@@ -92,6 +98,11 @@ module.exports = function transform(code) {
       }]
     ]
   }).code;
+
+  if (process.env.LOG_FINAL) {
+    // eslint-disable-next-line no-console
+    console.info(code);
+  }
 
   return code;
 };

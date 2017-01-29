@@ -11,7 +11,9 @@ function isNodeModule(filename) {
 
 function inject(m, filename) {
   const code = fs.readFileSync(filename, `utf8`);
-  m._compile(transform(code), filename);
+  // This isn't quite the right place to do this; we really only want to exit if
+  // the file being transformed is the entry point
+  m._compile(transform(code, {exit: true}), filename);
 }
 
 function enable() {

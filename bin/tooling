@@ -19,7 +19,7 @@ case 2:
 
   process.stdin.on('end', () => {
     var transform = require('../');
-    eval(transform(data));
+    eval(transform(data, {exit: true}));
   });
 
   process.stdin.resume();
