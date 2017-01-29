@@ -14,7 +14,7 @@ module.exports = function sh(str, options) {
   const cp = require(`child_process`);
 
   const spawnOptions = Object.assign({
-    std: [`pipe`, `pipe`, `pipe`]
+    stdio: [`pipe`, `pipe`, `pipe`]
   }, options.spawn);
 
   return new Promise((resolve, reject) => {
@@ -29,19 +29,20 @@ module.exports = function sh(str, options) {
 
     let out = ``;
     let err = ``;
+    let all = ``;
     if (child.stderr) {
       child.stderr.on(`data`, (d) => {
         err += d;
-
-        process.stderr.write(d.toString());
+        all += d;
+        process.stderr.write(d);
       });
     }
 
     if (child.stdout) {
       child.stdout.on(`data`, (d) => {
         out += d;
-
-        process.stdout.write(d.toString());
+        all += d;
+        process.stdout.write(d);
       });
     }
 
@@ -60,10 +61,12 @@ module.exports = function sh(str, options) {
       }
 
       if (code) {
+        process.stderr.write(`${all}\n`);
         const e = new Error(err);
         e.code = code;
         e.stdout = out;
         e.stderr = err;
+        e.all = all;
         reject(e);
         return;
       }
