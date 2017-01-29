@@ -74,4 +74,45 @@ describe(`sh`, () => {
     const out = cp.execSync(`echo '${code}' | node`);
     assert.equal(out.toString(), `1\n3\n2\n`);
   });
+
+  describe(`when x is set on sh`, () => {
+    it(`prints the passed commands`, () => {
+      const code = transform(`
+        sh.x = true;
+        sh("echo 1")
+        sh("echo 2")
+      `);
+
+      // pipe to node rather than eval so we can get all of stdout without spies
+      const out = cp.execSync(`echo '${code}' | node`);
+      assert.equal(out.toString(), `echo 1\n1\necho 2\n2\n`);
+    });
+
+    describe(`when x is set to false as an option`, () => {
+      it(`overrides the global sh.x value`, () => {
+        const code = transform(`
+          sh.x = true;
+          sh("echo 1", {x: false})
+          sh("echo 2")
+        `);
+
+        // pipe to node rather than eval so we can get all of stdout without spies
+        const out = cp.execSync(`echo '${code}' | node`);
+        assert.equal(out.toString(), `1\necho 2\n2\n`);
+      });
+    });
+  });
+
+  describe(`when x is set as an option`, () => {
+    it(`prints the specified command`, () => {
+      const code = transform(`
+        sh("echo 1")
+        sh("echo 2", {x: true})
+      `);
+
+      // pipe to node rather than eval so we can get all of stdout without spies
+      const out = cp.execSync(`echo '${code}' | node`);
+      assert.equal(out.toString(), `1\necho 2\n2\n`);
+    });
+  });
 });

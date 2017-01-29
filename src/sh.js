@@ -2,6 +2,12 @@
 
 module.exports = function sh(str, options) {
   options = options || {};
+
+  let x = sh.x;
+  if (`x` in options) {
+    x = options.x;
+  }
+
   // we need the require statement inside this function since its going to be
   // stringified
   // eslint-disable-next-line global-require
@@ -16,6 +22,10 @@ module.exports = function sh(str, options) {
     // Short of reimplementing bash's parser, I don't see a better way to handle
     // quotes, apostrophes, sub-shells, etc.
     const child = cp.spawn(`bash`, [`-c`, str], spawnOptions);
+    if (x) {
+      // eslint-disable-next-line no-console
+      console.info(str);
+    }
 
     let out = ``;
     let err = ``;
