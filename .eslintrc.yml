@@ -1,4 +1,6 @@
 extends: '@ianwremmel'
+parserOptions:
+  sourceType: "script"
 rules:
   require-jsdoc:
     - 0
@@ -7,3 +9,5 @@ rules:
   no-use-before-define:
     - 2
     - nofunc
+  strict:
+    - 0
