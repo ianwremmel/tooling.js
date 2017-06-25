@@ -1,4 +1,7 @@
 extends: '@ianwremmel'
+env:
+  node: true
+  es6: true
 parserOptions:
   sourceType: "script"
 rules:

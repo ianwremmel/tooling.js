@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require(`chai`).assert;
+const {assert} = require(`chai`);
 const sinon = require(`sinon`);
 const transform = require(`../../../src/transform`);
 
@@ -25,6 +25,7 @@ describe(`parallel`, () => {
       );
     `);
     spy.reset();
+
     return assert.isFulfilled(eval(code))
       .then(() => {
         assert.equal(spy.args[0][0], 1);
@@ -60,6 +61,7 @@ describe(`parallel`, () => {
     `);
 
     spy.reset();
+
     return assert.isFulfilled(eval(code))
       .then(() => {
         assert.equal(spy.args[0][0], 1);
@@ -110,6 +112,7 @@ describe(`parallel`, () => {
     `);
 
     spy.reset();
+
     return assert.isFulfilled(eval(code))
       .then((result) => {
         assert.equal(spy.args[0][0], 2);

@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require(`chai`).assert;
+const {assert} = require(`chai`);
 const transform = require(`../../../src/transform`);
 const os = require(`os`);
 const fs = require(`fs`);
@@ -19,6 +19,7 @@ describe(`tee`, () => {
     cp.exec(`echo '${code}' | node`, (err, stdout, stderr) => {
       if (err) {
         done(err);
+
         return;
       }
 
@@ -43,6 +44,7 @@ describe(`tee`, () => {
     cp.exec(`echo '${code}' | node`, (err, stdout, stderr) => {
       if (err) {
         done(err);
+
         return;
       }
 
@@ -65,6 +67,7 @@ describe(`tee`, () => {
     cp.exec(`echo '${code}' | node`, (err, stdout, stderr) => {
       if (err) {
         done(err);
+
         return;
       }
 
@@ -87,6 +90,7 @@ describe(`tee`, () => {
     cp.exec(`echo '${code}' | node`, (err, stdout, stderr) => {
       if (err) {
         done(err);
+
         return;
       }
 
@@ -110,6 +114,7 @@ describe(`tee`, () => {
     cp.exec(`echo '${code}' | node`, (err, stdout, stderr) => {
       if (err) {
         done(err);
+
         return;
       }
 
@@ -133,6 +138,7 @@ describe(`tee`, () => {
     cp.exec(`echo '${code}' | node`, (err, stdout, stderr) => {
       if (err) {
         done(err);
+
         return;
       }
 
@@ -164,6 +170,7 @@ describe(`tee`, () => {
     cp.exec(`echo '${code}' | node`, (err, stdout) => {
       if (err) {
         done(err);
+
         return;
       }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require(`chai`).assert;
+const {assert} = require(`chai`);
 const transform = require(`../../../src/transform`);
 const sinon = require(`sinon`);
 
@@ -14,6 +14,7 @@ describe(`env`, () => {
         spy()
       }
     `);
+
     return assert.isFulfilled(eval(code))
       .then(() => assert.calledOnce(spy));
   });
@@ -23,6 +24,7 @@ describe(`env`, () => {
     const code = transform(`
       env.TEST_ENV_VAR = 2;
     `);
+
     return assert.isFulfilled(eval(code))
       .then(() => assert.equal(process.env.TEST_ENV_VAR, 2));
   });

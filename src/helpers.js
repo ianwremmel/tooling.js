@@ -79,12 +79,6 @@ module.exports = {
     }
   `),
 
-  returnCwd: template(`
-    function returnCwd() {
-      return process.cwd();
-    }
-  `),
-
   retry: template(`
     async function retry(options, action) {
       if (!action) {
@@ -111,6 +105,12 @@ module.exports = {
       if (result) {
         throw result;
       }
+    }
+  `),
+
+  returnCwd: template(`
+    function returnCwd() {
+      return process.cwd();
     }
   `),
 

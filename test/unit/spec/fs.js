@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require(`chai`).assert;
+const {assert} = require(`chai`);
 const fs = require(`mz/fs`);
 const transform = require(`../../../src/transform`);
 
