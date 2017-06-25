@@ -10,9 +10,7 @@ describe(`esnext`, () => {
     // seconds doesn't quite cut it on circle ci
     this.timeout(5000);
 
-    const stdout = cp.execSync(`bin/tooling ./test/integration/fixtures/import.js`, {
-      cwd: path.resolve(__dirname, `../../..`)
-    }).toString();
+    const stdout = cp.execSync(`bin/tooling ./test/integration/fixtures/import.js`, {cwd: path.resolve(__dirname, `../../..`)}).toString();
 
     assert.equal(stdout, `10\n`);
   });

@@ -91,6 +91,7 @@ module.exports = function plugin({types: t}) {
         argument.params = argument.params || [];
       }
       else {
+        // eslint-disable-next-line no-param-reassign
         argument = t.newExpression(
           t.identifier(`Promise`),
           [t.arrowFunctionExpression(
@@ -105,25 +106,27 @@ module.exports = function plugin({types: t}) {
         );
       }
 
+      // eslint-disable-next-line no-param-reassign
       argument = t.arrowFunctionExpression(
-      [],
-      t.blockStatement(
-        [t.returnStatement(argument)]
-      ),
-      true
-    );
+        [],
+        t.blockStatement(
+          [t.returnStatement(argument)]
+        ),
+        true
+      );
 
       argument.parallelVisited = true;
+
       return argument;
     });
 
     if (!path.replaced) {
       path.replaceWith(
-      t.callExpression(
-        t.identifier(`parallel`),
-        args
-      )
-    );
+        t.callExpression(
+          t.identifier(`parallel`),
+          args
+        )
+      );
       path.replaced = true;
     }
   }
@@ -153,7 +156,7 @@ module.exports = function plugin({types: t}) {
       }
 
       if (argument.params && argument.params.length) {
-        const first = argument.params[0];
+        const [first] = argument.params;
         if (first.name === `ITERATION`) {
           return argument;
         }
@@ -164,6 +167,7 @@ module.exports = function plugin({types: t}) {
         argument.params = argument.params || [];
         argument.params.unshift(t.identifier(`MAX_ITERATIONS`));
         argument.params.unshift(t.identifier(`ITERATION`));
+
         return argument;
       }
 
@@ -172,11 +176,11 @@ module.exports = function plugin({types: t}) {
           t.identifier(`ITERATION`),
           t.identifier(`MAX_ITERATIONS`)
         ],
-          t.blockStatement(
-            [t.returnStatement(argument)]
-          ),
-          true
-        );
+        t.blockStatement(
+          [t.returnStatement(argument)]
+        ),
+        true
+      );
     });
   }
 
@@ -192,19 +196,6 @@ module.exports = function plugin({types: t}) {
 
   return {
     visitor: {
-      MemberExpression(path) {
-        if (path.node.object.name === `env` && !t.isMemberExpression(path.parentPath.node)) {
-          path.replaceWith(
-            t.memberExpression(
-              t.memberExpression(
-                t.identifier(`process`),
-                t.identifier(`env`)
-              ),
-              path.node.property
-            )
-          );
-        }
-      },
       // eslint-disable-next-line complexity
       CallExpression(path, state) {
         if (path.get(`callee`).isIdentifier({name: `cd`})) {
@@ -250,6 +241,19 @@ module.exports = function plugin({types: t}) {
               replaceFsMethod(methodName, path, state);
             }
           });
+        }
+      },
+      MemberExpression(path) {
+        if (path.node.object.name === `env` && !t.isMemberExpression(path.parentPath.node)) {
+          path.replaceWith(
+            t.memberExpression(
+              t.memberExpression(
+                t.identifier(`process`),
+                t.identifier(`env`)
+              ),
+              path.node.property
+            )
+          );
         }
       }
     }

@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require(`chai`).assert;
+const {assert} = require(`chai`);
 const transform = require(`../../../src/transform`);
 const cp = require(`child_process`);
 

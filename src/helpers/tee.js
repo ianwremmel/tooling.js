@@ -33,17 +33,17 @@ module.exports = function tee(options) {
 
   }
 
-  options = Object.assign({
+  const allOptions = Object.assign({
     stderr: false,
     stdout: false
   }, options);
 
-  const stream = options.stream || tee.fs.createWriteStream(options.file);
+  const stream = allOptions.stream || tee.fs.createWriteStream(allOptions.file);
   [
     `stderr`,
     `stdout`
   ].forEach((key) => {
-    if (options[key]) {
+    if (allOptions[key]) {
       tee.streams[key].add(stream);
     }
   });

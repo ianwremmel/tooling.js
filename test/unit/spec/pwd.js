@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require(`chai`).assert;
+const {assert} = require(`chai`);
 const sinon = require(`sinon`);
 const transform = require(`../../../src/transform`);
 const cp = require(`child_process`);
@@ -22,6 +22,7 @@ describe(`pwd`, () => {
     cp.exec(`echo '${code}' | node`, (err, out) => {
       if (err) {
         done(err);
+
         return;
       }
 

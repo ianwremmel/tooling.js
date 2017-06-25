@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = function sh(str, options) {
-  options = options || {};
-
-  let x = sh.x;
+module.exports = function sh(str, options = {}) {
+  let {x} = sh;
   if (`x` in options) {
+    // the next assignment can't, as far as I can tell, be destructured
+    // eslint-disable-next-line prefer-destructuring
     x = options.x;
   }
 
@@ -13,9 +13,7 @@ module.exports = function sh(str, options) {
   // eslint-disable-next-line global-require
   const cp = require(`child_process`);
 
-  const spawnOptions = Object.assign({
-    stdio: [`pipe`, `pipe`, `pipe`]
-  }, options.spawn);
+  const spawnOptions = Object.assign({stdio: [`pipe`, `pipe`, `pipe`]}, options.spawn);
 
   return new Promise((resolve, reject) => {
     // Yes, this is weird. we're wrapping a call to bash in a call to bash.
@@ -54,9 +52,10 @@ module.exports = function sh(str, options) {
       if (options.complex) {
         resolve({
           code,
-          stdout: out,
-          stderr: err
+          stderr: err,
+          stdout: out
         });
+
         return;
       }
 
@@ -68,6 +67,7 @@ module.exports = function sh(str, options) {
         e.stderr = err;
         e.all = all;
         reject(e);
+
         return;
       }
       resolve(out);

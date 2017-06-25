@@ -55,12 +55,15 @@ function asyncWrap(code, options) {
       }
       const importBlock = code.substr(0, splitPoint);
       const codeBlock = code.substr(splitPoint);
+      // eslint-disable-next-line no-param-reassign
       code = `${importBlock}\n(async function() { ${codeBlock} })()`;
     }
     else {
+      // eslint-disable-next-line no-param-reassign
       code = `(async function() { ${code} })()`;
     }
     if (options && options.exit) {
+      // eslint-disable-next-line no-param-reassign
       code += `.catch((err) => {console.error(err);process.exit(64);});`;
     }
   }
@@ -68,14 +71,15 @@ function asyncWrap(code, options) {
   return code;
 }
 
-module.exports = function transform(code, options) {
-  options = options || {};
+module.exports = function transform(code, options = {}) {
+  // eslint-disable-next-line no-param-reassign
   code = asyncWrap(code, options);
 
   // The following two transforms should be doable in one step, but because sh
   // uses insertBefore, there's `async` code that doesn't changed to `yield`.
 
   // Apply our transforms
+  // eslint-disable-next-line no-param-reassign,prefer-destructuring
   code = babel.transform(code, {
     plugins: [
       babelPluginTransformTooling
@@ -89,13 +93,10 @@ module.exports = function transform(code, options) {
 
   // Apply env-required transforms - this is done as two different steps to make
   // sure our transforms happen first
+  // eslint-disable-next-line no-param-reassign,prefer-destructuring
   code = babel.transform(code, {
     presets: [
-      [`env`, {
-        targets: {
-          node: true
-        }
-      }]
+      [`env`, {targets: {node: true}}]
     ]
   }).code;
 
