@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "babel-core": "^6.20.0",
-    "babel-preset-env": "1.5.2",
+    "babel-preset-env": "1.6.0",
     "babel-register": "^6.18.0",
     "babel-template": "^6.16.0",
     "mkdirp": "^0.5.1",
