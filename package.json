@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@ianwremmel/eslint-config": "^2.0.1",
-    "babel-eslint": "^8.0.3",
+    "babel-eslint": "^8.1.1",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "condition-circle": "^2.0.0",
