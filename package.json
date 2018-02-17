@@ -27,7 +27,7 @@
     "babel-template": "^6.16.0",
     "mkdirp": "^0.5.1",
     "mz": "^2.6.0",
-    "shelljs": "^0.7.5"
+    "shelljs": "^0.8.1"
   },
   "devDependencies": {
     "@ianwremmel/eslint-config": "^2.0.1",
