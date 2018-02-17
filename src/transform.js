@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable complexity */
+
 const babel = require(`babel-core`);
 const babelPluginTransformTooling = require(`./plugin`);
 
