@@ -150,6 +150,7 @@ module.exports = function plugin({types: t}) {
 
   function addRetry(path, state) {
     addHelper(`retry`, path, state);
+    // eslint-disable-next-line complexity
     path.node.arguments = path.node.arguments.map((argument) => {
       if (t.isObjectExpression(argument)) {
         return argument;
