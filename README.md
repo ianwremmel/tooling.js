@@ -1,6 +1,6 @@
 # tooling.js _(@ianwremmel/tooling.js)_
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ianwremmel/tooling.js.svg)](https://greenkeeper.io/)
+[![Dependabot badge](https://img.shields.io/badge/Dependabot-active-brightgreen.svg)](https://dependabot.com/)
 
 [![CircleCI](https://img.shields.io/circleci/project/github/ianwremmel/tooling.js.svg?style=flat-square)](https://circleci.com/gh/ianwremmel/tooling.js/tree/master)
 [![npm (scoped)](https://img.shields.io/npm/v/@ianwremmel/tooling.js.svg?style=flat-square)](https://www.npmjs.com/package/@ianwremmel/tooling.js)
